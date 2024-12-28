@@ -1,0 +1,127 @@
+﻿@page
+@model IndexModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Property Analysis Tool</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+            }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .tooltip-inner {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Loading spinner style */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Virtual Driving For Dollars AI</h1>
+        <form method="post" asp-page="/Results" id="propertyForm">
+            <div class="mb-3">
+                <label for="address" class="form-label">Enter Address</label>
+                <input type="text" id="address" name="Address" class="form-control" placeholder="e.g., 123 Main St, City, State" required
+                       aria-describedby="addressHelp" />
+                <small id="addressHelp" class="form-text text-muted">Enter a full address with city and state for accurate results.</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="radius" class="form-label">Radius (in meters)</label>
+                <input type="number" id="radius" name="Radius" class="form-control" placeholder="e.g., 800" required
+                       min="1" aria-describedby="radiusHelp" />
+                <small id="radiusHelp" class="form-text text-muted">Specify the search radius (e.g., 800 meters).</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Analyze Properties</button>
+        </form>
+    </div>
+
+    <!-- Loading spinner -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Show the loading spinner when the form is submitted
+        document.getElementById('propertyForm').addEventListener('submit', function () {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        });
+
+        // Hide the loading spinner when the page is fully loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

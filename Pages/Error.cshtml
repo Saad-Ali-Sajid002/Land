@@ -1,0 +1,134 @@
+﻿@page
+@model Land.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Error - No Internet Connection";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #f2f7ff, #e1e6f3);
+            color: #333;
+        }
+
+        .container {
+            margin-top: 5%;
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+      
+
+        .status-icon {
+            font-size: 90px;
+            color: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+
+     
+
+        .btn-retry {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 20px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s;
+        }
+
+        .btn-retry:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+
+        #status {
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .spinner-border {
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container text-center">
+        <div>
+            <i class="fas fa-exclamation-circle status-icon"></i>
+        </div>
+        <h1 class="text-danger mt-4">Error</h1>
+        <p class="lead">We couldn’t connect to the internet. Please check your network and try again.</p>
+
+        <div>
+            <button id="retry" class="btn-retry">
+                <span>Retry</span>
+                <div class="spinner-border text-light" role="status" id="spinner"></div>
+            </button>
+            <a href="/" class="btn-back">Go Back</a>
+        </div>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById("retry").addEventListener("click", function () {
+            const statusDiv = document.getElementById("status");
+            const spinner = document.getElementById("spinner");
+            statusDiv.textContent = "";
+            spinner.style.display = "inline-block";
+
+            // Simulate a small delay for UX purposes
+            setTimeout(() => {
+                // Test internet connectivity
+                fetch("https://clients3.google.com/generate_204")
+                    .then(() => {
+                        statusDiv.textContent = "Internet connection restored!";
+                        statusDiv.style.color = "green";
+                        spinner.style.display = "none";
+                        setTimeout(() => window.location.reload(), 1500); // Reload the page
+                    })
+                    .catch(() => {
+                        statusDiv.textContent = "Still offline. Please try again later.";
+                        statusDiv.style.color = "red";
+                        spinner.style.display = "none";
+                    });
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>
