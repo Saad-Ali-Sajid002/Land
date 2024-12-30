@@ -1,23 +1,29 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
-using RestSharp;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Mvc;
 using OpenCvSharp;
+using System.Text;
 
 public class ResultsModel : PageModel
 {
-    private readonly string _apiKey = "AIzaSyAMCuhMSeDuZRdvscIWAwYk9KCrbGJ6hwg";
+    private readonly string _apiKey;
     private readonly IWebHostEnvironment _environment;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public ResultsModel(IWebHostEnvironment environment)
+    // Inject IHttpClientFactory and IWebHostEnvironment into the constructor
+    public ResultsModel(IWebHostEnvironment environment, IHttpClientFactory httpClientFactory)
     {
         _environment = environment;
+        _httpClientFactory = httpClientFactory;
+        _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new Exception("API Key is missing.");
     }
     public async Task<IActionResult> OnPostAsync(string Address, int Radius)
     {
