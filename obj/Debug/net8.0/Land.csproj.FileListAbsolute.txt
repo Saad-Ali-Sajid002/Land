@@ -220,3 +220,9 @@ C:\Users\Saad\Downloads\Mohsin Project\Land\Land\obj\Debug\net8.0\refint\Land.dl
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\obj\Debug\net8.0\Land.pdb
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\obj\Debug\net8.0\Land.genruntimeconfig.cache
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\obj\Debug\net8.0\ref\Land.dll
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\bin\Debug\net8.0\publish\web.config
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\bin\Debug\net8.0\publish\appsettings.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\bin\Debug\net8.0\publish\Land.deps.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\bin\Debug\net8.0\publish\Land.runtimeconfig.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\obj\Debug\net8.0\Land.sourcelink.json

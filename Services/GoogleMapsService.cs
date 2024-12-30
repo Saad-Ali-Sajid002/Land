@@ -7,9 +7,14 @@ namespace Land.Services
     {
         private readonly string _apiKey;
 
-        public GoogleMapsService(string apiKey)
+        public GoogleMapsService()
         {
-            _apiKey = apiKey;
+            // Retrieve the API key from environment variables
+            _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                throw new InvalidOperationException("The API key is not set in the environment variables.");
+            }
         }
 
         public async Task<(double, double)> GetCoordinatesAsync(string address)
@@ -31,5 +36,4 @@ namespace Land.Services
             throw new Exception("Failed to fetch coordinates.");
         }
     }
-
 }

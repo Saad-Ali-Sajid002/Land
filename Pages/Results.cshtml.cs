@@ -12,13 +12,17 @@ using OpenCvSharp;
 
 public class ResultsModel : PageModel
 {
-    private readonly string _apiKey = "AIzaSyAMCuhMSeDuZRdvscIWAwYk9KCrbGJ6hwg";
+    private readonly string _apiKey;
     private readonly IWebHostEnvironment _environment;
 
     public ResultsModel(IWebHostEnvironment environment)
     {
         _environment = environment;
+
+        // Load API key from environment variable
+        _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new System.Exception("API Key not found in environment variables");
     }
+
     public async Task<IActionResult> OnPostAsync(string Address, int Radius)
     {
         if (!IsInternetAvailable())
@@ -57,6 +61,7 @@ public class ResultsModel : PageModel
             return false;
         }
     }
+
     public bool IsAnalysisComplete { get; set; }
     public List<DistressedProperty> DistressedProperties { get; set; }
 

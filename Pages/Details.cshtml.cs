@@ -7,7 +7,17 @@ namespace Land.Pages
 {
     public class DetailsModel : PageModel
     {
-        private readonly string _apiKey = "AIzaSyAMCuhMSeDuZRdvscIWAwYk9KCrbGJ6hwg";
+        private readonly string _apiKey;
+
+        public DetailsModel()
+        {
+            // Retrieve the API key from environment variables
+            _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                throw new InvalidOperationException("The API key is not set in the environment variables.");
+            }
+        }
 
         public string Address { get; set; }
         public List<string> DistressNotes { get; set; }
@@ -19,8 +29,6 @@ namespace Land.Pages
             DistressNotes = distressNotes?.Split(";").ToList() ?? new List<string>();
             ImageUrls = await GetStreetViewImagesAsync(address);  // Fetch multiple images
         }
-
-    
 
         private async Task<List<string>> GetStreetViewImagesAsync(string address)
         {
