@@ -7,19 +7,9 @@ namespace Land.Services
     {
         private readonly string _apiKey;
 
-        public GoogleMapsService()
+        public GoogleMapsService(string apiKey)
         {
-
-           _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
-            if (string.IsNullOrEmpty(_apiKey))
-            {
-                _apiKey = "AIzaSyAMCuhMSeDuZRdvscIWAwYk9KCrbGJ6hwg";
-            }
-
-            if (string.IsNullOrEmpty(_apiKey))
-            {
-                throw new InvalidOperationException("The API key is not available. Please set GOOGLE_API_KEY environment variable or configure the static key.");
-            }
+            _apiKey = apiKey;
         }
 
         public async Task<(double, double)> GetCoordinatesAsync(string address)
@@ -41,4 +31,5 @@ namespace Land.Services
             throw new Exception("Failed to fetch coordinates.");
         }
     }
+
 }
