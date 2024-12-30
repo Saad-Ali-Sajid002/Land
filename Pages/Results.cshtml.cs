@@ -25,6 +25,7 @@ public class ResultsModel : PageModel
         _httpClientFactory = httpClientFactory;
         _apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new Exception("API Key is missing.");
     }
+
     public async Task<IActionResult> OnPostAsync(string Address, int Radius)
     {
         if (!IsInternetAvailable())
@@ -33,17 +34,25 @@ public class ResultsModel : PageModel
             return RedirectToPage("/Error");
         }
 
-        // Existing logic for fetching distressed properties
-        (double lat, double lng) = await GetCoordinatesAsync(Address);
-        DistressedProperties = await GetNearbyAddressesAsync(lat, lng, Radius);
-
-        if (DistressedProperties.Count > 0)
+        try
         {
-            SaveToCsv(DistressedProperties);
-        }
+            // Existing logic for fetching distressed properties
+            (double lat, double lng) = await GetCoordinatesAsync(Address);
+            DistressedProperties = await GetNearbyAddressesAsync(lat, lng, Radius);
 
-        IsAnalysisComplete = DistressedProperties.Count > 0;
-        return Page();
+            if (DistressedProperties.Count > 0)
+            {
+                SaveToCsv(DistressedProperties);
+            }
+
+            IsAnalysisComplete = DistressedProperties.Count > 0;
+            return Page();
+        }
+        catch (Exception ex)
+        {
+            // Log error if any issue arises during processing
+            return RedirectToPage("/Error", new { errorMessage = ex.Message });
+        }
     }
 
     private bool IsInternetAvailable()
@@ -63,6 +72,7 @@ public class ResultsModel : PageModel
             return false;
         }
     }
+
     public bool IsAnalysisComplete { get; set; }
     public List<DistressedProperty> DistressedProperties { get; set; }
 
@@ -82,7 +92,7 @@ public class ResultsModel : PageModel
                 return (lat, lng);
             }
         }
-        throw new System.Exception("Failed to fetch coordinates.");
+        throw new Exception("Failed to fetch coordinates.");
     }
 
     private async Task<List<DistressedProperty>> GetNearbyAddressesAsync(double lat, double lng, int radius)

@@ -1,6 +1,11 @@
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\Land.exe
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\out\web.config
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\appsettings.Development.json
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\appsettings.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\out\appsettings.Development.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\out\appsettings.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\out\Land.deps.json
+C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\out\Land.runtimeconfig.json
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\Land.dll
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\Land.runtimeconfig.json
 C:\Users\Saad\Downloads\Mohsin Project\Land\Land\publish\Land.pdb

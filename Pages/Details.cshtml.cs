@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System;
 
 namespace Land.Pages
 {
@@ -13,39 +14,62 @@ namespace Land.Pages
         private readonly string _apiKey;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public string Address { get; set; }
+        // Mark Address as nullable if it can be null
+        public string? Address { get; set; } = "Unknown Address"; // Default value
         public List<string> DistressNotes { get; set; }
-        public List<string> ImageUrls { get; set; }  // Changed to a list of image URLs
+        public List<string> ImageUrls { get; set; }
 
-        // Inject IHttpClientFactory and GoogleApiSettings for API Key retrieval
         public DetailsModel(IHttpClientFactory httpClientFactory, IOptions<GoogleApiSettings> googleApiSettings)
         {
             _httpClientFactory = httpClientFactory;
-            _apiKey = googleApiSettings.Value.ApiKey ?? throw new System.Exception("Google API Key is missing.");
+            _apiKey = googleApiSettings.Value.ApiKey ?? throw new ArgumentNullException("Google API Key is missing.");
+            DistressNotes = new List<string>(); 
+            ImageUrls = new List<string>(); 
         }
 
         public async Task OnGetAsync(string address, string distressNotes)
         {
-            Address = address;
-            DistressNotes = distressNotes?.Split(";").ToList() ?? new List<string>();
-            ImageUrls = await GetStreetViewImagesAsync(address);  // Fetch multiple images
+            Address = address ?? "Unknown Address"; // Default value
+            DistressNotes = string.IsNullOrEmpty(distressNotes) ? new List<string>() : distressNotes.Split(";").ToList();
+
+            try
+            {
+                ImageUrls = await GetStreetViewImagesAsync(address);  // Fetch multiple images based on the address
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ImageUrls = new List<string>(); 
+            }
         }
 
         private async Task<List<string>> GetStreetViewImagesAsync(string address)
         {
             var imageUrls = new List<string>();
 
-            // Use the HttpClient to fetch street view images from the Google API
+            var encodedAddress = Uri.EscapeDataString(address);
+
             var client = _httpClientFactory.CreateClient();
 
-            // Example: Fetch 3 different images (in different directions)
-            for (int i = 0; i < 3; i++)
+            try
             {
-                var imageUrl = $"https://maps.googleapis.com/maps/api/streetview?size=640x640&location={address}&heading={i * 90}&key={_apiKey}";
-                imageUrls.Add(imageUrl);
+                for (int i = 0; i < 3; i++)
+                {
+                    var imageUrl = $"https://maps.googleapis.com/maps/api/streetview?size=640x640&location={encodedAddress}&heading={i * 90}&key={_apiKey}";
+                    imageUrls.Add(imageUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching street view images: {ex.Message}");
             }
 
             return imageUrls;
         }
+    }
+
+    public class GoogleApiSettings
+    {
+        public string ApiKey { get; set; } 
     }
 }
